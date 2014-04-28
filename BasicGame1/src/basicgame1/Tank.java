@@ -5,14 +5,13 @@
  */
 package basicgame1;
 
-//import com.sun.java.accessibility.util.AWTEventMonitor;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.event.KeyListener;
-//import java.awt.RenderingHints.Key;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
@@ -37,37 +36,41 @@ public class Tank implements Shape {
     int WWIDTH;
     int W;
     int H;
+    
     //KeyListener key;
     char key;
-    KeyListener2 keyl;
+    Listener keyl;
     Rectangle Bounds;
+    Shooter shooter;
 
     public Tank(double X, double Y, int W, int H) {
         try {
-            tankpic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/tank.png"));
+            tankpic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankBody.png"));
         } catch (IOException ex) {
             Logger.getLogger(Tank.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.keyl = keyl;
         this.X = X;
         this.Y = Y;
         this.W = W;
         this.H = H;
         Bounds = new Rectangle((int) X, (int) Y, W, H);
+        shooter = new Shooter(keyl, new Point (W*23/40,H*26/40), new Dimension (W/2,H/10));
     }
 
     public void paint(Graphics g, int WindowWIDTH) {
         Graphics2D gg = (Graphics2D) g;
-
-        gg.translate(X, Y);
+        
+        shooter.paint(g);
+        gg.translate(X, Y);    
         gg.drawImage(tankpic, 0, 0, W, H, null);
         gg.translate(-X, -Y);
         this.WWIDTH = WindowWIDTH;
     }
 
-    public void pos(KeyListener2 keyl) {
+    public void pos(Listener keyl) {
+        shooter.pos(keyl,(int)X,(int)Y);
         key = keyl.Key();
-        System.out.println(Vx + " " + X);
+        //System.out.println(Vx + " " + X);
         if (key == ' '){
             if (Vx > 0)
                 Vx -= .5;
@@ -88,21 +91,28 @@ public class Tank implements Shape {
         } else if (X < -W) {
             X = WWIDTH;
         }
-        if (Vx > 40){
-            Vx = 40;
+        if (Vx > 60){
+            Vx = 60;
         }
         if (Vx < -30){
             Vx = -30;
         }
         X += Vx / 10;
         Bounds.setBounds((int) X, (int) Y, W, H);
+        firecheck(keyl);
 
+    }
+    public void firecheck(Listener keyl){
+        if (keyl.clicked){
+            shooter.shoot(100, 20);
+            keyl.clickReset();
+        }
     }
 
 //    @Override
 //    public void keyTyped(KeyEvent e) {
 //        // System.out.println("1");
-//        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//                                                                                                                                                                                                                                                                                     //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
 //
 //    @Override

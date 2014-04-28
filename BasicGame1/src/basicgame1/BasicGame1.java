@@ -22,13 +22,15 @@ public class BasicGame1 extends JFrame {
 
 
     BasicGameJPanel jPanel;
-    KeyListener2 keyl;
+    Listener keyl;
     public BasicGame1() {
         
         setTitle("Tank");
         setSize(new Dimension(700, 500));
-        keyl = new KeyListener2();
+        keyl = new Listener();
         addKeyListener(keyl);
+        addMouseListener(keyl);
+        addMouseMotionListener(keyl);
         
         jPanel = new BasicGameJPanel();
         getContentPane().add(jPanel);
