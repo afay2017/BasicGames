@@ -33,7 +33,7 @@ class MG {
     int posX;
     int posY;
     Listener listener;
-    projectile [] projs = new projectile [100];
+    mgbullet [] projs = new mgbullet [100];
     int projcount;
 
     double rot;
@@ -51,7 +51,7 @@ class MG {
         dimensionX = (int) dimensions.getWidth();
         dimensionY = (int) dimensions.getHeight();
         for (int i = 0;i > projs.length-1; i++){
-            projs[i] = new projectile(0, 0, 0, -100, -100, false);
+            projs[i] = new mgbullet(0, 0, 0, -5, -5, false);
         }
     }
 
@@ -63,22 +63,16 @@ class MG {
         gg.drawImage(pic, -dimensionY / 2, -dimensionY / 2, dimensionX, dimensionY, null);
         gg.rotate(-rot);
         gg.translate(-posX, -posY);
-        
+
         for (int i = 0; i < projs.length-1;i++){
             if (projs[i]==(null)){
                 break;
             }
             projs[i].paintCompnent(g);
-            
+
         }
-        gg.setColor(Color.red);
-        gg.drawLine(posX, posY, distanceX+posX, distanceY+posY);
-        gg.translate(posX, posY);
-        gg.rotate(rot);
-        gg.drawLine(0, 0, 90, 0);
-        gg.rotate(-rot);
-        gg.translate(-posX,-posY);
-        
+
+
 
     }
 
@@ -88,15 +82,14 @@ class MG {
         distanceX = -((posX) - listener.getX());
         distanceY = -((posY + tankY) - listener.getY());
         rot = Math.atan2(distanceY, distanceX);
-        //System.out.println(distanceY + " " + distanceX + " " + rot);
 
     }
     public void shoot(int dimensionX,int dimensionY){
-        projs[projcount] = new projectile(rot,posX,posY,dimensionX,dimensionY,true);
+        projs[projcount] = new mgbullet(rot,posX,posY,dimensionX,dimensionY,true);
         projcount++;
         if (projcount > projs.length-1)
             projcount = 0;
-        
+
     }
 
 }

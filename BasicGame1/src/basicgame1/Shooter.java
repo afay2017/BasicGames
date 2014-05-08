@@ -63,22 +63,14 @@ class Shooter {
         gg.drawImage(pic, -dimensionY / 2, -dimensionY / 2, dimensionX, dimensionY, null);
         gg.rotate(-rot);
         gg.translate(-posX, -posY);
-        
+
         for (int i = 0; i < projs.length-1;i++){
             if (projs[i]==(null)){
                 break;
             }
             projs[i].paintCompnent(g);
-            
+
         }
-        gg.setColor(Color.red);
-        gg.drawLine(posX, posY, distanceX+posX, distanceY+posY);
-        gg.translate(posX, posY);
-        gg.rotate(rot);
-        gg.drawLine(0, 0, 90, 0);
-        gg.rotate(-rot);
-        gg.translate(-posX,-posY);
-        
 
     }
 
@@ -96,7 +88,7 @@ class Shooter {
         projcount++;
         if (projcount > projs.length-1)
             projcount = 0;
-        
+
     }
 
 }

@@ -36,12 +36,13 @@ public class Tank implements Shape {
     int WWIDTH;
     int W;
     int H;
-    
+
     //KeyListener key;
     char key;
     Listener keyl;
     Rectangle Bounds;
     Shooter shooter;
+    MG mg;
 
     public Tank(double X, double Y, int W, int H) {
         try {
@@ -53,15 +54,17 @@ public class Tank implements Shape {
         this.Y = Y;
         this.W = W;
         this.H = H;
-        Bounds = new Rectangle((int) X, (int) Y, W, H);
-        shooter = new Shooter(keyl, new Point (W*23/40,H*26/40), new Dimension (W/2,H/10));
+        Bounds  = new Rectangle((int) X, (int) Y, W, H);
+        shooter = new Shooter  (keyl, new Point (W*23/40,H*26/40), new Dimension (W/2,H/10));
+        mg      = new MG       (keyl, new Point (W*13/40,H*11/40), new Dimension (W/6,H/10));
     }
 
     public void paint(Graphics g, int WindowWIDTH) {
         Graphics2D gg = (Graphics2D) g;
-        
+
         shooter.paint(g);
-        gg.translate(X, Y);    
+        mg.paint(g);
+        gg.translate(X, Y);
         gg.drawImage(tankpic, 0, 0, W, H, null);
         gg.translate(-X, -Y);
         this.WWIDTH = WindowWIDTH;
@@ -69,6 +72,7 @@ public class Tank implements Shape {
 
     public void pos(Listener keyl) {
         shooter.pos(keyl,(int)X,(int)Y);
+        mg.pos(keyl,(int)X,(int)Y);
         key = keyl.Key();
         //System.out.println(Vx + " " + X);
         if (key == ' '){
