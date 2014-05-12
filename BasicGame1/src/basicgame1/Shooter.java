@@ -5,6 +5,8 @@
  */
 package basicgame1;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -33,10 +35,14 @@ class Shooter {
     int posX;
     int posY;
     Listener listener;
-    projectile [] projs = new projectile [10];
+    projectile[] projs = new projectile[100];
     int projcount;
 
     double rot;
+    private double barrelX;
+    private double barrelY;
+    private int barrelOffset;
+    private final AudioClip sound;
 
     public Shooter(Listener listener, Point start, Dimension dimensions) {
         try {
@@ -50,7 +56,8 @@ class Shooter {
         startY = (int) start.getY();
         dimensionX = (int) dimensions.getWidth();
         dimensionY = (int) dimensions.getHeight();
-        for (int i = 0;i > projs.length-1; i++){
+        sound = Applet.newAudioClip(getClass().getResource("/basicgame1/TankFire.wav"));
+        for (int i = 0; i > projs.length - 1; i++) {
             projs[i] = new projectile(0, 0, 0, -100, -100, false);
         }
     }
@@ -58,36 +65,39 @@ class Shooter {
     public void paint(Graphics g) {
         Graphics2D gg = (Graphics2D) g;
 
-        gg.translate(posX, posY);
-        gg.rotate(rot);
-        gg.drawImage(pic, -dimensionY / 2, -dimensionY / 2, dimensionX, dimensionY, null);
-        gg.rotate(-rot);
-        gg.translate(-posX, -posY);
-
-        for (int i = 0; i < projs.length-1;i++){
-            if (projs[i]==(null)){
+        for (int i = 0; i < projs.length - 1; i++) {
+            if (projs[i] == (null)) {
                 break;
             }
             projs[i].paintCompnent(g);
-
         }
-
+        gg.translate(posX, posY);
+        gg.rotate(rot);
+        gg.drawImage(pic, -dimensionY / 6, -dimensionY / 2, dimensionX, dimensionY, null);
+        gg.rotate(-rot);
+        gg.translate(-posX, -posY);
     }
 
     public void pos(Listener listener, int tankX, int tankY) {
+        barrelOffset = dimensionX * 19 / 20;
         posX = startX + tankX;
         posY = startY + tankY;
         distanceX = -((posX) - listener.getX());
         distanceY = -((posY + tankY) - listener.getY());
         rot = Math.atan2(distanceY, distanceX);
-        //System.out.println(distanceY + " " + distanceX + " " + rot);
+        barrelX = posX + Math.cos(rot) * barrelOffset;
+        barrelY = posY + Math.sin(rot) * barrelOffset;
 
     }
-    public void shoot(int dimensionX,int dimensionY){
-        projs[projcount] = new projectile(rot,posX,posY,dimensionX,dimensionY,true);
+
+    public void shoot(int dimensionX, int dimensionY) {
+        projs[projcount] = new projectile(rot, (int) barrelX, (int) barrelY, dimensionX, dimensionY, true);
         projcount++;
-        if (projcount > projs.length-1)
+            sound.stop();
+            sound.play();
+        if (projcount > projs.length - 1) {
             projcount = 0;
+        }
 
     }
 

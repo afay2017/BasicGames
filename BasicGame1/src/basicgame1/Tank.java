@@ -5,6 +5,8 @@
  */
 package basicgame1;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,6 +19,8 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -43,6 +47,7 @@ public class Tank implements Shape {
     Rectangle Bounds;
     Shooter shooter;
     MG mg;
+    AudioClip sound;
 
     public Tank(double X, double Y, int W, int H) {
         try {
@@ -55,15 +60,17 @@ public class Tank implements Shape {
         this.W = W;
         this.H = H;
         Bounds  = new Rectangle((int) X, (int) Y, W, H);
-        shooter = new Shooter  (keyl, new Point (W*23/40,H*26/40), new Dimension (W/2,H/10));
-        mg      = new MG       (keyl, new Point (W*13/40,H*11/40), new Dimension (W/6,H/10));
+        shooter = new Shooter  (keyl, new Point (W*22/40,H*27/40), new Dimension (W/3,H/10));
+        mg      = new MG       (keyl, new Point (W*37/80,H*21/40), new Dimension (W/6,H/10));
+        
+            
+        
     }
 
     public void paint(Graphics g, int WindowWIDTH) {
         Graphics2D gg = (Graphics2D) g;
-
         shooter.paint(g);
-        mg.paint(g);
+        mg.paint(g);   
         gg.translate(X, Y);
         gg.drawImage(tankpic, 0, 0, W, H, null);
         gg.translate(-X, -Y);
@@ -72,9 +79,8 @@ public class Tank implements Shape {
 
     public void pos(Listener keyl) {
         shooter.pos(keyl,(int)X,(int)Y);
-        mg.pos(keyl,(int)X,(int)Y);
+        mg.pos(keyl,(int)X,(int)Y,keyl.pressed);
         key = keyl.Key();
-        //System.out.println(Vx + " " + X);
         if (key == ' '){
             if (Vx > 0)
                 Vx -= .5;
@@ -82,7 +88,6 @@ public class Tank implements Shape {
                 Vx += .5;
         }
         if (key == 'a') {
-           // System.out.println(key);
             Vx -= 1;
             key = ' ';
         }
@@ -108,8 +113,11 @@ public class Tank implements Shape {
     }
     public void firecheck(Listener keyl){
         if (keyl.clicked){
-            shooter.shoot(100, 20);
+            shooter.shoot(40,10);
             keyl.clickReset();
+        }
+        if (keyl.pressed){
+            mg.shoot(5,5);
         }
     }
 

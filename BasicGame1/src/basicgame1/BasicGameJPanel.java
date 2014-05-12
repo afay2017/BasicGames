@@ -32,8 +32,7 @@ public class BasicGameJPanel extends JPanel{
     public void Init() {
         
         addKeyListener(keyl);
-        tank = new Tank(0, 30, 400, 200);
-        tank2 = new Tank(60, 60, 150, 100);
+        tank = new Tank(0, 30, 800, 400);
         setSize(new Dimension(700, 500));
         setVisible(true);
         

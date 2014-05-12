@@ -37,6 +37,7 @@ public class BasicGame1 extends JFrame {
         
         
         setResizable(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         jPanel.Init();
   

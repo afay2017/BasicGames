@@ -31,7 +31,7 @@ class mgbullet{
     private final int yinit;
     public mgbullet(double rot,int x,int y,int dimensionX, int dimensionY,boolean alive){
         try {
-            pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/Gun.png"));
+            pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/MG Bullet.png"));
         } catch (IOException ex) {
             Logger.getLogger(Tank.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -53,8 +53,8 @@ class mgbullet{
         gg.drawImage(pic, -dimensionY / 2, -dimensionY / 2, dimensionX, dimensionY, null);
         gg.rotate(-rot);
         gg.translate(-x, -y);
-        x += Math.acos(rot)*5;
-        y += Math.asin(rot)*5;
+        x += Math.cos(rot)*20;
+        y += Math.sin(rot)*20;
         }
 
 
