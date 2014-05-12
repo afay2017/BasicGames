@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
  *
  * @author Todor
  */
-class projectile{
+class TankShell{
     private BufferedImage pic;
     private double rot;
     private int dimensionY;
@@ -29,7 +29,7 @@ class projectile{
     public boolean alive;
     private final int xinit;
     private final int yinit;
-    public projectile(double rot,int x,int y,int dimensionX, int dimensionY,boolean alive){
+    public TankShell(double rot,int x,int y,int dimensionX, int dimensionY,boolean alive){
         try {
             pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankShell.png"));
         } catch (IOException ex) {
