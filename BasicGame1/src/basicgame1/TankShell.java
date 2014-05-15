@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
  *
  * @author Todor
  */
-class TankShell{
+class TankShell extends Projectile{
     private BufferedImage pic;
     private double rot;
     private int dimensionY;
@@ -30,6 +30,7 @@ class TankShell{
     private final int xinit;
     private final int yinit;
     public TankShell(double rot,int x,int y,int dimensionX, int dimensionY,boolean alive){
+        super(rot, x, y, dimensionX, dimensionY, null);
         try {
             pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankShell.png"));
         } catch (IOException ex) {
@@ -43,23 +44,7 @@ class TankShell{
         this.dimensionY = dimensionY;
         this.rot = rot;
         this.alive = alive;
+        super.setImage(pic);
 
     }
-     public void paintCompnent(Graphics g) {
-        Graphics2D gg = (Graphics2D) g;
-        if (alive){
-        gg.translate(x, y);
-        gg.rotate(rot);
-        gg.drawImage(pic, -dimensionY / 2, -dimensionY / 2, dimensionX, dimensionY, null);
-        gg.rotate(-rot);
-        gg.translate(-x, -y);
-        x += Math.cos(rot)*50;
-        y += Math.sin(rot)*50;
-        }
-
-
-
-    }
-
-
 }
