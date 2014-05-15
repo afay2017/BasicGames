@@ -19,11 +19,7 @@ import javax.imageio.ImageIO;
  *
  * @author Todor
  */
-<<<<<<< HEAD:BasicGame1/src/basicgame1/TankShell.java
-class TankShell extends Projectile{
-=======
 class TankShell{
->>>>>>> 2855603a3f6a5eb35cfed90ac6d1bdf8af6d2625:BasicGame1/src/basicgame1/TankShell.java
     private BufferedImage pic;
     private double rot;
     private int dimensionY;
@@ -34,10 +30,6 @@ class TankShell{
     private final int xinit;
     private final int yinit;
     public TankShell(double rot,int x,int y,int dimensionX, int dimensionY,boolean alive){
-<<<<<<< HEAD:BasicGame1/src/basicgame1/TankShell.java
-        super(rot, x, y, dimensionX, dimensionY, alive,null);
-=======
->>>>>>> 2855603a3f6a5eb35cfed90ac6d1bdf8af6d2625:BasicGame1/src/basicgame1/TankShell.java
         try {
             pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankShell.png"));
         } catch (IOException ex) {
@@ -51,7 +43,21 @@ class TankShell{
         this.dimensionY = dimensionY;
         this.rot = rot;
         this.alive = alive;
-        super.setImage(pic);
+
+    }
+     public void paintCompnent(Graphics g) {
+        Graphics2D gg = (Graphics2D) g;
+        if (alive){
+        gg.translate(x, y);
+        gg.rotate(rot);
+        gg.drawImage(pic, -dimensionY / 2, -dimensionY / 2, dimensionX, dimensionY, null);
+        gg.rotate(-rot);
+        gg.translate(-x, -y);
+        x += Math.cos(rot)*50;
+        y += Math.sin(rot)*50;
+        }
+
+
 
     }
 
