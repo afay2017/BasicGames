@@ -63,6 +63,9 @@ public class Listener implements MouseListener, MouseMotionListener, KeyListener
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        x = e.getX();
+        y = e.getY();
+        this.e = e;
     }
 
     @Override
@@ -81,6 +84,7 @@ public class Listener implements MouseListener, MouseMotionListener, KeyListener
 
     @Override
     public void keyPressed(KeyEvent e) {
+        
         //System.out.println(x);
         key = e.getKeyChar();
 

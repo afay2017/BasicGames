@@ -19,7 +19,11 @@ import javax.imageio.ImageIO;
  *
  * @author Todor
  */
-class mgBullet extends Projectile{
+<<<<<<< HEAD:BasicGame1/src/basicgame1/TankShell.java
+class TankShell extends Projectile{
+=======
+class TankShell{
+>>>>>>> 2855603a3f6a5eb35cfed90ac6d1bdf8af6d2625:BasicGame1/src/basicgame1/TankShell.java
     private BufferedImage pic;
     private double rot;
     private int dimensionY;
@@ -29,13 +33,16 @@ class mgBullet extends Projectile{
     public boolean alive;
     private final int xinit;
     private final int yinit;
-    public mgBullet(double rot,int x,int y,int dimensionX, int dimensionY){
-        super(rot, x, y, dimensionX, dimensionY, true,null);
+    public TankShell(double rot,int x,int y,int dimensionX, int dimensionY,boolean alive){
+<<<<<<< HEAD:BasicGame1/src/basicgame1/TankShell.java
+        super(rot, x, y, dimensionX, dimensionY, alive,null);
+=======
+>>>>>>> 2855603a3f6a5eb35cfed90ac6d1bdf8af6d2625:BasicGame1/src/basicgame1/TankShell.java
         try {
-            pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/mgBullet.png"));
+            pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankShell.png"));
         } catch (IOException ex) {
             Logger.getLogger(Tank.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
         this.x = x;
         xinit = x;
         yinit = y;

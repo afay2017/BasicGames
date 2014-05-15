@@ -40,7 +40,7 @@ class MG {
     int posX;
     int posY;
     Listener listener;
-    mgbullet[] projs = new mgbullet[100];
+    Projectile[] projs = new Projectile[100];
     int projcount;
     Timer timer;
     ActionListener fire;
@@ -52,6 +52,8 @@ class MG {
     private int bulletdimensionX;
     private int bulletdimensionY;
     private final AudioClip sound;
+    private int tankY;
+    private int tankX;
 
     public MG(Listener listener, Point start, Dimension dimensions) {
         try {
@@ -67,7 +69,7 @@ class MG {
         dimensionY = (int) dimensions.getHeight();
         sound = Applet.newAudioClip(getClass().getResource("/basicgame1/MGFire.wav"));
         for (int i = 0; i > projs.length - 1; i++) {
-            projs[i] = new mgbullet(0, 0, 0, -5, -5, false);
+            projs[i] = new Projectile(0, 0, 0, -5, -5, false,null);
         };
         
         fire = new ActionListener() {
@@ -94,7 +96,7 @@ class MG {
             if (projs[i] == (null)) {
                 break;
             }
-            projs[i].paintCompnent(g);
+            projs[i].paintComponent(g);
         }
         gg.translate(posX, posY);
         gg.rotate(rot);
@@ -106,6 +108,8 @@ class MG {
     public void pos(Listener listener, int tankX, int tankY,boolean trigger) {
         barrelOffset = dimensionX*21/25;
         posX = startX + tankX;
+        this.tankX = tankX;
+        this.tankY = tankY;
         posY = startY + tankY;
         distanceX = -((posX) - listener.getX());
         distanceY = -((posY) - listener.getY());
@@ -130,10 +134,10 @@ class MG {
     
 
     public void fire() {
-        timer.setDelay((int)(timer.getInitialDelay()/2+(Math.random()-.5)*10));
+        timer.setDelay((int)(timer.getInitialDelay()/2+(Math.random()-.5)*5));
         sound.stop();
         sound.play();
-        projs[projcount] = new mgbullet(rot + ((Math.random()-.5)/10), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY, true);
+        projs[projcount] = new mgBullet(rot + ((Math.random()-.5)/10), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY);
         projcount++;
                 
     }

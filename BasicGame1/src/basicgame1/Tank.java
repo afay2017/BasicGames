@@ -5,7 +5,6 @@
  */
 package basicgame1;
 
-import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -19,8 +18,6 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -62,15 +59,15 @@ public class Tank implements Shape {
         Bounds  = new Rectangle((int) X, (int) Y, W, H);
         shooter = new Shooter  (keyl, new Point (W*22/40,H*27/40), new Dimension (W/3,H/10));
         mg      = new MG       (keyl, new Point (W*37/80,H*21/40), new Dimension (W/6,H/10));
-        
-            
-        
+
+
+
     }
 
     public void paint(Graphics g, int WindowWIDTH) {
         Graphics2D gg = (Graphics2D) g;
         shooter.paint(g);
-        mg.paint(g);   
+        mg.paint(g);
         gg.translate(X, Y);
         gg.drawImage(tankpic, 0, 0, W, H, null);
         gg.translate(-X, -Y);
@@ -121,27 +118,6 @@ public class Tank implements Shape {
         }
     }
 
-//    @Override
-//    public void keyTyped(KeyEvent e) {
-//        // System.out.println("1");
-//                                                                                                                                                                                                                                                                                     //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void keyPressed(KeyEvent e) {
-//        key = e.getKeyChar();
-//
-//        System.out.println(key);
-//        //System.out.println("2");
-//        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void keyReleased(KeyEvent e) {
-//       // key = ' ';
-//
-//        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
     @Override
     public Rectangle getBounds() {
         return new Rectangle((int) X, (int) Y, W, H);

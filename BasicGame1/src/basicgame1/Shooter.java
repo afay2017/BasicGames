@@ -7,7 +7,6 @@ package basicgame1;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -35,7 +34,7 @@ class Shooter {
     int posX;
     int posY;
     Listener listener;
-    projectile[] projs = new projectile[100];
+    TankShell[] projs = new TankShell[100];
     int projcount;
 
     double rot;
@@ -58,7 +57,7 @@ class Shooter {
         dimensionY = (int) dimensions.getHeight();
         sound = Applet.newAudioClip(getClass().getResource("/basicgame1/TankFire.wav"));
         for (int i = 0; i > projs.length - 1; i++) {
-            projs[i] = new projectile(0, 0, 0, -100, -100, false);
+            projs[i] = new TankShell(0, 0, 0, -100, -100, false);
         }
     }
 
@@ -69,7 +68,7 @@ class Shooter {
             if (projs[i] == (null)) {
                 break;
             }
-            projs[i].paintCompnent(g);
+            projs[i].paintComponent(g);
         }
         gg.translate(posX, posY);
         gg.rotate(rot);
@@ -91,7 +90,7 @@ class Shooter {
     }
 
     public void shoot(int dimensionX, int dimensionY) {
-        projs[projcount] = new projectile(rot, (int) barrelX, (int) barrelY, dimensionX, dimensionY, true);
+        projs[projcount] = new TankShell(rot, (int) barrelX, (int) barrelY, dimensionX, dimensionY, true);
         projcount++;
             sound.stop();
             sound.play();
