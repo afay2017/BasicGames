@@ -12,7 +12,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
@@ -26,7 +25,7 @@ import javax.imageio.ImageIO;
  *
  * @author WARLords
  */
-public class Tank implements Shape {
+public class Tank extends GameObject {
 
     private Image tankpic;
     double X;
@@ -46,19 +45,29 @@ public class Tank implements Shape {
     MG mg;
     AudioClip sound;
 
-    public Tank(double X, double Y, int W, int H) {
+    /**
+     *
+     * @param X
+     * @param Y
+     * @param W
+     * @param H
+     * @param projectileMaster
+     */
+    public Tank(double X, double Y, int W, int H,ProjectileMaster projectileMaster) {
+        super((int)X, (int)Y, W, H, 1000, null);
         try {
             tankpic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankBody.png"));
         } catch (IOException ex) {
             Logger.getLogger(Tank.class.getName()).log(Level.SEVERE, null, ex);
         }
+        super.setImage(tankpic);
         this.X = X;
         this.Y = Y;
         this.W = W;
         this.H = H;
         Bounds  = new Rectangle((int) X, (int) Y, W, H);
-        shooter = new Shooter  (keyl, new Point (W*22/40,H*27/40), new Dimension (W/3,H/10));
-        mg      = new MG       (keyl, new Point (W*37/80,H*21/40), new Dimension (W/6,H/10));
+        shooter = new Shooter  (keyl, new Point (W*22/40,H*27/40), new Dimension (W/3,H/10), projectileMaster);
+        mg      = new MG       (keyl, new Point (W*37/80,H*21/40), new Dimension (W/6,H/10), projectileMaster);
 
 
 
@@ -68,15 +77,14 @@ public class Tank implements Shape {
         Graphics2D gg = (Graphics2D) g;
         shooter.paint(g);
         mg.paint(g);
-        gg.translate(X, Y);
-        gg.drawImage(tankpic, 0, 0, W, H, null);
-        gg.translate(-X, -Y);
+        super.paint(g);
         this.WWIDTH = WindowWIDTH;
     }
 
-    public void pos(Listener keyl) {
+     public void pos(Listener keyl) {
+        super.pos((int)X,(int)Y);
         shooter.pos(keyl,(int)X,(int)Y);
-        mg.pos(keyl,(int)X,(int)Y,keyl.pressed);
+        mg.pos     (keyl,(int)X,(int)Y,keyl.pressed);
         key = keyl.Key();
         if (key == ' '){
             if (Vx > 0)
@@ -130,47 +138,27 @@ public class Tank implements Shape {
 
     @Override
     public boolean contains(double x, double y) {
-        if (Bounds.contains(x, y)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Bounds.contains(x, y);
     }
 
     @Override
     public boolean contains(Point2D p) {
-        if (Bounds.contains(p)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Bounds.contains(p);
     }
 
     @Override
     public boolean intersects(double x, double y, double w, double h) {
-        if (Bounds.intersects(x, y, w, h)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Bounds.intersects(x, y, w, h);
     }
 
     @Override
     public boolean intersects(Rectangle2D r) {
-        if (Bounds.intersects(r)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Bounds.intersects(r);
     }
 
     @Override
     public boolean contains(double x, double y, double w, double h) {
-        if (Bounds.contains(x, y, w, h)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Bounds.contains(x, y, w, h);
     }
 
     @Override

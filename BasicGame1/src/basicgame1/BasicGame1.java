@@ -6,12 +6,8 @@
  */
 package basicgame1;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -26,7 +22,7 @@ public class BasicGame1 extends JFrame {
     public BasicGame1() {
         
         setTitle("Tank");
-        setSize(new Dimension(700, 500));
+        setSize(new Dimension(1680, 1050));
         keyl = new Listener();
         addKeyListener(keyl);
         addMouseListener(keyl);

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package basicgame1;
 
 import java.awt.Color;
@@ -19,7 +18,8 @@ import javax.imageio.ImageIO;
  *
  * @author Todor
  */
-class TankShell extends Projectile{
+class TankShell extends Projectile {
+
     private BufferedImage pic;
     private double rot;
     private int dimensionY;
@@ -29,8 +29,9 @@ class TankShell extends Projectile{
     public boolean alive;
     private final int xinit;
     private final int yinit;
-    public TankShell(double rot,int x,int y,int dimensionX, int dimensionY,boolean alive){
-        super(rot, x, y, dimensionX, dimensionY, null);
+
+    public TankShell(double rot, int x, int y, int dimensionX, int dimensionY) {
+        super(rot, x, y, dimensionX, dimensionY, 600, null);
         try {
             pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankShell.png"));
         } catch (IOException ex) {
@@ -43,7 +44,6 @@ class TankShell extends Projectile{
         this.dimensionX = dimensionX;
         this.dimensionY = dimensionY;
         this.rot = rot;
-        this.alive = alive;
         super.setImage(pic);
 
     }

@@ -7,7 +7,6 @@ package basicgame1;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,9 +14,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 import java.io.IOException;
-import static java.lang.Math.PI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -54,8 +51,12 @@ class MG {
     private final AudioClip sound;
     private int tankY;
     private int tankX;
+    private ProjectileMaster projectileMaster;
+    mgBullet testBullet;
 
-    public MG(Listener listener, Point start, Dimension dimensions) {
+    public MG(Listener listener, Point start, Dimension dimensions, ProjectileMaster projectileMaster) {
+        testBullet = new mgBullet(rot + ((Math.random() - .5) / 10), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY);
+        this.projectileMaster = projectileMaster;
         try {
             pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/MG.png"));
         } catch (IOException ex) {
@@ -68,25 +69,22 @@ class MG {
         dimensionX = (int) dimensions.getWidth();
         dimensionY = (int) dimensions.getHeight();
         sound = Applet.newAudioClip(getClass().getResource("/basicgame1/MGFire.wav"));
-        for (int i = 0; i > projs.length - 1; i++) {
-            projs[i] = new Projectile(0, 0, 0, -5, -5, false,null);
-        };
-        
+
         fire = new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (trigger == true){
+                if (trigger == true) {
                     fire();
-                }else{
+                } else {
                     timer.stop();
                 }
-                
+
             }
         };
         timer = new Timer(150, fire);
         timer.setInitialDelay(300);
-        
+
     }
 
     public void paint(Graphics g) {
@@ -100,46 +98,46 @@ class MG {
         }
         gg.translate(posX, posY);
         gg.rotate(rot);
-        gg.drawImage(pic, -dimensionX*1/10, -dimensionY * 9 / 10, dimensionX, dimensionY, null);
+        gg.drawImage(pic, -dimensionX * 1 / 10, -dimensionY * 9 / 10, dimensionX, dimensionY, null);
         gg.rotate(-rot);
         gg.translate(-posX, -posY);
     }
 
-    public void pos(Listener listener, int tankX, int tankY,boolean trigger) {
-        barrelOffset = dimensionX*21/25;
+    public void pos(Listener listener, int tankX, int tankY, boolean trigger) {
+        barrelOffset = dimensionX * 21 / 25;
         posX = startX + tankX;
         this.tankX = tankX;
         this.tankY = tankY;
         posY = startY + tankY;
         distanceX = -((posX) - listener.getX());
         distanceY = -((posY) - listener.getY());
-        rot = Math.atan2(distanceY, distanceX);
-        barrelX = posX + Math.cos(rot-.23) * barrelOffset;
-        barrelY = posY + Math.sin(rot-.23) * barrelOffset;
-        //rot = Math.atan2(barrelY-distanceY, barrelX-distanceX);
+        rot = rot*.8 + Math.atan2(distanceY, distanceX)*.2;
+        if (rot > .5) {
+            rot = .5;
+        } else if (rot < -1) {
+            rot = -1;
+        }
+        barrelX = posX + Math.cos(rot - .23) * barrelOffset;
+        barrelY = posY + Math.sin(rot - .23) * barrelOffset;
         this.trigger = trigger;
-
     }
 
     public void shoot(int bulletdimensionX, int bulletdimensionY) {
         if (projcount > projs.length - 1) {
             projcount = 0;
         }
-        System.out.println(rot);
         timer.start();
         this.bulletdimensionX = bulletdimensionX;
         this.bulletdimensionY = bulletdimensionY;
-        
+
     }
-    
 
     public void fire() {
-        timer.setDelay((int)(timer.getInitialDelay()/2+(Math.random()-.5)*5));
+        timer.setDelay((int) (timer.getInitialDelay() / 2 + (Math.random() - .5) * 5));
         sound.stop();
         sound.play();
-        projs[projcount] = new mgBullet(rot + ((Math.random()-.5)/10), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY);
-        projcount++;
-                
+       //System.out.println(rot);
+        projectileMaster.addProjectile(new mgBullet(rot + ((Math.random() - .5) / 20), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY));
     }
 
 }

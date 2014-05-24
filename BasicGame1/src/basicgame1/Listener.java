@@ -51,7 +51,7 @@ public class Listener implements MouseListener, MouseMotionListener, KeyListener
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        System.out.println(x);
+       // System.out.println(x);
         
     }
 

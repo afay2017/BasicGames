@@ -12,10 +12,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.Timer;
 
 /**
  *
@@ -42,8 +45,12 @@ class Shooter {
     private double barrelY;
     private int barrelOffset;
     private final AudioClip sound;
+    private final ActionListener reload;
+    boolean loaded;
+    private ProjectileMaster projectileMaster;
+    private final Timer timer;
 
-    public Shooter(Listener listener, Point start, Dimension dimensions) {
+    public Shooter(Listener listener, Point start, Dimension dimensions, ProjectileMaster projectileMaster) {
         try {
             pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/Gun.png"));
         } catch (IOException ex) {
@@ -51,14 +58,23 @@ class Shooter {
         }
         this.start = start;
         this.listener = listener;
+        this.projectileMaster = projectileMaster;
         startX = (int) start.getX();
         startY = (int) start.getY();
         dimensionX = (int) dimensions.getWidth();
         dimensionY = (int) dimensions.getHeight();
         sound = Applet.newAudioClip(getClass().getResource("/basicgame1/TankFire.wav"));
-        for (int i = 0; i > projs.length - 1; i++) {
-            projs[i] = new TankShell(0, 0, 0, -100, -100, false);
-        }
+        reload = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loaded = true;
+                timer.stop();
+
+            }
+        };
+        timer = new Timer(150, reload);
+        timer.setInitialDelay(1000);
     }
 
     public void paint(Graphics g) {
@@ -83,21 +99,24 @@ class Shooter {
         posY = startY + tankY;
         distanceX = -((posX) - listener.getX());
         distanceY = -((posY + tankY) - listener.getY());
-        rot = Math.atan2(distanceY, distanceX);
+        rot = rot * .95 + Math.atan2(distanceY, distanceX) * .05;
+        if (rot > .2) {
+            rot = .2;
+        } else if (rot < -.8) {
+            rot = -.8;
+        }
         barrelX = posX + Math.cos(rot) * barrelOffset;
         barrelY = posY + Math.sin(rot) * barrelOffset;
-
     }
 
     public void shoot(int dimensionX, int dimensionY) {
-        projs[projcount] = new TankShell(rot, (int) barrelX, (int) barrelY, dimensionX, dimensionY, true);
-        projcount++;
+        System.out.println(loaded);
+        if (loaded) {
+            projectileMaster.addProjectile(new TankShell(rot, (int) barrelX, (int) barrelY, dimensionX, dimensionY));
             sound.stop();
             sound.play();
-        if (projcount > projs.length - 1) {
-            projcount = 0;
+            loaded = false; 
         }
-
+        timer.start();
     }
-
 }
