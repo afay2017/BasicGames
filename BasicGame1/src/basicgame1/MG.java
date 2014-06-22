@@ -51,12 +51,12 @@ class MG {
     private final AudioClip sound;
     private int tankY;
     private int tankX;
-    private ProjectileMaster projectileMaster;
+    //private ProjectileMaster projectileMaster;
     mgBullet testBullet;
 
-    public MG(Listener listener, Point start, Dimension dimensions, ProjectileMaster projectileMaster) {
+    public MG(Listener listener, Point start, Dimension dimensions) {
         testBullet = new mgBullet(rot + ((Math.random() - .5) / 10), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY);
-        this.projectileMaster = projectileMaster;
+        //this.projectileMaster = projectileMaster;
         try {
             pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/MG.png"));
         } catch (IOException ex) {
@@ -137,7 +137,7 @@ class MG {
         sound.stop();
         sound.play();
        //System.out.println(rot);
-        projectileMaster.addProjectile(new mgBullet(rot + ((Math.random() - .5) / 20), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY));
+        ProjectileMaster.addProjectile(new mgBullet(rot + ((Math.random() - .5) / 20), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY));
     }
 
 }

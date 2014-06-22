@@ -51,9 +51,8 @@ public class Tank extends GameObject {
      * @param Y
      * @param W
      * @param H
-     * @param projectileMaster
      */
-    public Tank(double X, double Y, int W, int H,ProjectileMaster projectileMaster) {
+    public Tank(double X, double Y, int W, int H) {
         super((int)X, (int)Y, W, H, 1000, null);
         try {
             tankpic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankBody.png"));
@@ -66,8 +65,8 @@ public class Tank extends GameObject {
         this.W = W;
         this.H = H;
         Bounds  = new Rectangle((int) X, (int) Y, W, H);
-        shooter = new Shooter  (keyl, new Point (W*22/40,H*27/40), new Dimension (W/3,H/10), projectileMaster);
-        mg      = new MG       (keyl, new Point (W*37/80,H*21/40), new Dimension (W/6,H/10), projectileMaster);
+        shooter = new Shooter  (keyl, new Point (W*22/40,H*27/40), new Dimension (W/3,H/10));
+        mg      = new MG       (keyl, new Point (W*37/80,H*21/40), new Dimension (W/6,H/10));
 
 
 

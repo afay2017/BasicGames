@@ -35,7 +35,7 @@ public class BasicGameJPanel extends JPanel {
     public void Init() {
         projMaster = new ProjectileMaster();
         addKeyListener(keyl);
-        tank = new Tank(0, 30, 800, 400, projMaster);
+        tank = new Tank(0, 30, 800, 400);
         target1 = new Target(800, 100, 80, 80);
         target2 = new Target(0, 430, 9000, 8000);
         setSize(new Dimension(1680, 1050));
@@ -50,20 +50,21 @@ public class BasicGameJPanel extends JPanel {
         Graphics2D gg = (Graphics2D) g;
         gg.fillRect(0, 0, NWidth, getHeight());//background
         try {
-            projMaster.PaintComponent(g);
+            ProjectileMaster.PaintComponent(g);
         } catch (Exception e) {
         }
 
         if (tank != null) {
             tank.pos(keyl);
             try {
-                currentProj = projMaster.intersects(target1);
-                currentProj.die();
+                currentProj = ProjectileMaster.intersects(target1);
+                if (target1.getHP() > 0)
+                    currentProj.die();
                 target1.hit(currentProj);
             } catch (Exception e) {
             }
             try {
-                projMaster.intersects(target2).die();
+                ProjectileMaster.intersects(target2).die();
             } catch (Exception e) {
             }
             

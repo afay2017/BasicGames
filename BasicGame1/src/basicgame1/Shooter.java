@@ -47,10 +47,9 @@ class Shooter {
     private final AudioClip sound;
     private final ActionListener reload;
     boolean loaded;
-    private ProjectileMaster projectileMaster;
     private final Timer timer;
 
-    public Shooter(Listener listener, Point start, Dimension dimensions, ProjectileMaster projectileMaster) {
+    public Shooter(Listener listener, Point start, Dimension dimensions) {
         try {
             pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/Gun.png"));
         } catch (IOException ex) {
@@ -58,7 +57,6 @@ class Shooter {
         }
         this.start = start;
         this.listener = listener;
-        this.projectileMaster = projectileMaster;
         startX = (int) start.getX();
         startY = (int) start.getY();
         dimensionX = (int) dimensions.getWidth();
@@ -112,7 +110,7 @@ class Shooter {
     public void shoot(int dimensionX, int dimensionY) {
         System.out.println(loaded);
         if (loaded) {
-            projectileMaster.addProjectile(new TankShell(rot, (int) barrelX, (int) barrelY, dimensionX, dimensionY));
+            ProjectileMaster.addProjectile(new TankShell(rot, (int) barrelX, (int) barrelY, dimensionX, dimensionY));
             sound.stop();
             sound.play();
             loaded = false; 
