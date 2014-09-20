@@ -27,7 +27,7 @@ public class KeyListener2 implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         key = e.getKeyChar();
-        System.out.println(key);
+        //System.out.println(key);
 
     }
 
@@ -39,7 +39,7 @@ public class KeyListener2 implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         key = ' ';
-        System.out.println(key);
+      // System.out.println(key);
 
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

@@ -39,7 +39,7 @@ class Shooter {
     Listener listener;
     TankShell[] projs = new TankShell[100];
     int projcount;
-
+    public String name;
     double rot;
     private double barrelX;
     private double barrelY;
@@ -50,6 +50,33 @@ class Shooter {
     private final Timer timer;
 
     public Shooter(Listener listener, Point start, Dimension dimensions) {
+        name = "unnamedShooter";
+        try {
+            pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/Gun.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Tank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.start = start;
+        this.listener = listener;
+        startX = (int) start.getX();
+        startY = (int) start.getY();
+        dimensionX = (int) dimensions.getWidth();
+        dimensionY = (int) dimensions.getHeight();
+        sound = Applet.newAudioClip(getClass().getResource("/basicgame1/TankFire.wav"));
+        reload = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loaded = true;
+                timer.stop();
+
+            }
+        };
+        timer = new Timer(150, reload);
+        timer.setInitialDelay(1000);
+    }
+    public Shooter(Listener listener, Point start, Dimension dimensions, String Name) {
+        name = Name;
         try {
             pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/Gun.png"));
         } catch (IOException ex) {
@@ -108,9 +135,9 @@ class Shooter {
     }
 
     public void shoot(int dimensionX, int dimensionY) {
-        System.out.println(loaded);
+        //System.out.println(loaded);
         if (loaded) {
-            ProjectileMaster.addProjectile(new TankShell(rot, (int) barrelX, (int) barrelY, dimensionX, dimensionY));
+            ProjectileMaster.addProjectile(new TankShell(rot, (int) barrelX, (int) barrelY, dimensionX, dimensionY,name));
             sound.stop();
             sound.play();
             loaded = false; 

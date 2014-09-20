@@ -26,8 +26,28 @@ class mgBullet extends Projectile{
     public boolean alive;
     private final int xinit;
     private final int yinit;
+    public String sender;
     public mgBullet(double rot,int x,int y,int dimensionX, int dimensionY){
         super(rot, x, y, dimensionX, dimensionY, 60 ,null);
+        try {
+            pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/mgBullet.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Tank.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        this.x = x;
+        xinit = x;
+        yinit = y;
+        this.y = y;
+        this.dimensionX = dimensionX;
+        this.dimensionY = dimensionY;
+        this.rot = rot;
+        alive = true;
+        super.setImage(pic);
+
+    }
+    public mgBullet(double rot,int x,int y,int dimensionX, int dimensionY,String Sender){
+        super(rot, x, y, dimensionX, dimensionY, 60 ,null,Sender);
+        sender = sender;
         try {
             pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/mgBullet.png"));
         } catch (IOException ex) {

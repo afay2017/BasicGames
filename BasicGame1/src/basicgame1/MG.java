@@ -43,6 +43,7 @@ class MG {
     ActionListener fire;
     boolean trigger;
     double rot;
+    public String name;
     private double barrelX;
     private double barrelY;
     private int barrelOffset;
@@ -55,6 +56,40 @@ class MG {
     mgBullet testBullet;
 
     public MG(Listener listener, Point start, Dimension dimensions) {
+        testBullet = new mgBullet(rot + ((Math.random() - .5) / 10), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY);
+        name = "unnamedMG";
+        //this.projectileMaster = projectileMaster;
+        try {
+            pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/MG.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Tank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.start = start;
+        this.listener = listener;
+        startX = (int) start.getX();
+        startY = (int) start.getY();
+        dimensionX = (int) dimensions.getWidth();
+        dimensionY = (int) dimensions.getHeight();
+        sound = Applet.newAudioClip(getClass().getResource("/basicgame1/MGFire.wav"));
+
+        fire = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (trigger == true) {
+                    fire();
+                } else {
+                    timer.stop();
+                }
+
+            }
+        };
+        timer = new Timer(150, fire);
+        timer.setInitialDelay(300);
+
+    }
+    public MG(Listener listener, Point start, Dimension dimensions,String Name) {
+        name = Name;
         testBullet = new mgBullet(rot + ((Math.random() - .5) / 10), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY);
         //this.projectileMaster = projectileMaster;
         try {
@@ -137,7 +172,7 @@ class MG {
         sound.stop();
         sound.play();
        //System.out.println(rot);
-        ProjectileMaster.addProjectile(new mgBullet(rot + ((Math.random() - .5) / 20), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY));
+        ProjectileMaster.addProjectile(new mgBullet(rot + ((Math.random() - .5) / 20), (int) barrelX, (int) barrelY, bulletdimensionX, bulletdimensionY,name));
     }
 
 }

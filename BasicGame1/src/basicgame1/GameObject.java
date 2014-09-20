@@ -19,8 +19,20 @@ public class GameObject implements Shape {
     private int H;
     private int hp;
     private Image image;
+    public String name;
 
     public GameObject(int X, int Y, int W, int H, int Health, Image image) {
+        Bounds = new Rectangle((int) X, (int) Y, W, H);
+        this.X = X;
+        this.Y = Y;
+        this.W = W;
+        this.H = H;
+        this.hp = Health;
+        this.image = image;
+
+    }
+    public GameObject(int X, int Y, int W, int H, int Health, Image image,String Name) {
+        name = Name;
         Bounds = new Rectangle((int) X, (int) Y, W, H);
         this.X = X;
         this.Y = Y;
@@ -44,9 +56,17 @@ public class GameObject implements Shape {
         this.image = image;
     }
 
-    public void pos(int X, int Y) {
+    public void setpos(int X, int Y) {
         this.X = X;
         this.Y = Y;
+    }
+    public void pos() {
+    }
+    public int getX(){
+        return X;
+    }
+    public int getY(){
+        return Y;
     }
 
     public void hit(Projectile proj) {
@@ -55,6 +75,13 @@ public class GameObject implements Shape {
 
     public int getHP() {
         return hp;
+    }
+    
+     public String getName() {
+        if (name.isEmpty()) {
+            return "null";
+        }
+        return name;
     }
 
     @Override

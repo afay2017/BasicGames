@@ -41,6 +41,14 @@ public class Target extends GameObject {
         this.H = H;
 
     }
+    public Target(int X, int Y, int W, int H,String name) {
+        super(X, Y, W, H, 999, null,name);
+        this.X = X;
+        this.Y = Y;
+        this.W = W;
+        this.H = H;
+
+    }
 
     @Override
     public void paint(Graphics g) {
@@ -55,7 +63,7 @@ public class Target extends GameObject {
     }
 
     public void pos(Listener keyl) {
-        super.pos(X,Y);
+        super.setpos(X,Y);
     }
 
     @Override

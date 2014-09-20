@@ -23,10 +23,11 @@ public class Projectile {
     private boolean alive;
     private double rot;
     Image image;
-    String sender;
+    public String sender;
     public int damage;
 
     public Projectile(double rot, int x, int y, int dimensionX, int dimensionY, int damage, boolean alive, Image image, String sender) {
+        this.sender = sender;
         this.rot = rot;
         this.x = x;
         this.y = y;
@@ -39,6 +40,7 @@ public class Projectile {
     }
 
     public Projectile(double rot, int x, int y, int dimensionX, int dimensionY, int damage, Image image, String sender) {
+        this.sender = sender;
         this.rot = rot;
         this.x = x;
         this.y = y;
@@ -83,7 +85,7 @@ public class Projectile {
 
     public String getSender() {
         if (sender.isEmpty()) {
-            return "sender:null";
+            return "null";
         }
         return sender;
     }

@@ -29,7 +29,7 @@ public class Tank extends GameObject {
 
     private Image tankpic;
     double X;
-    double Y = 30;
+    double Y;
     int sX;
     int sY;
     double Vx;
@@ -44,6 +44,7 @@ public class Tank extends GameObject {
     Shooter shooter;
     MG mg;
     AudioClip sound;
+    public String name;
 
     /**
      *
@@ -54,6 +55,7 @@ public class Tank extends GameObject {
      */
     public Tank(double X, double Y, int W, int H) {
         super((int)X, (int)Y, W, H, 1000, null);
+        name = "unnamedTank";
         try {
             tankpic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankBody.png"));
         } catch (IOException ex) {
@@ -65,25 +67,41 @@ public class Tank extends GameObject {
         this.W = W;
         this.H = H;
         Bounds  = new Rectangle((int) X, (int) Y, W, H);
-        shooter = new Shooter  (keyl, new Point (W*22/40,H*27/40), new Dimension (W/3,H/10));
-        mg      = new MG       (keyl, new Point (W*37/80,H*21/40), new Dimension (W/6,H/10));
-
-
-
+        shooter = new Shooter  (keyl, new Point (W*22/40,H*27/40), new Dimension (W/3,H/10),name);
+        mg      = new MG       (keyl, new Point (W*37/80,H*21/40), new Dimension (W/6,H/10),name);
+    }
+    public Tank(double X, double Y, int W, int H,String Name) {
+        super((int)X, (int)Y, W, H, 1000, null,Name);
+        name = Name;
+        try {
+            tankpic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankBody.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Tank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        super.setImage(tankpic);
+        this.X = X;
+        this.Y = Y;
+        this.W = W;
+        this.H = H;
+        Bounds  = new Rectangle((int) X, (int) Y, W, H);
+        shooter = new Shooter  (keyl, new Point (W*22/40,H*27/40), new Dimension (W/3,H/10),name);
+        mg      = new MG       (keyl, new Point (W*37/80,H*21/40), new Dimension (W/6,H/10),name);
     }
 
-    public void paint(Graphics g, int WindowWIDTH) {
+    @Override
+    public void paint(Graphics g) {
         Graphics2D gg = (Graphics2D) g;
         shooter.paint(g);
         mg.paint(g);
         super.paint(g);
-        this.WWIDTH = WindowWIDTH;
     }
 
-     public void pos(Listener keyl) {
-        super.pos((int)X,(int)Y);
-        shooter.pos(keyl,(int)X,(int)Y);
-        mg.pos     (keyl,(int)X,(int)Y,keyl.pressed);
+    @Override
+     public void pos() {
+        keyl   = Globals.KeyListener;
+        WWIDTH = Globals.Width;
+        X = super.getX();
+        Y = super.getY();
         key = keyl.Key();
         if (key == ' '){
             if (Vx > 0)
@@ -112,6 +130,9 @@ public class Tank extends GameObject {
         }
         X += Vx / 10;
         Bounds.setBounds((int) X, (int) Y, W, H);
+        shooter.pos(keyl,(int)X,(int)Y);
+        mg.pos     (keyl,(int)X,(int)Y,keyl.pressed);
+        super.setpos((int)X,(int)Y);
         firecheck(keyl);
 
     }

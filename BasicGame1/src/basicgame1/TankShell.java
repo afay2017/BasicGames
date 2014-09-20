@@ -29,6 +29,7 @@ class TankShell extends Projectile {
     public boolean alive;
     private final int xinit;
     private final int yinit;
+    public String sender;
 
     public TankShell(double rot, int x, int y, int dimensionX, int dimensionY) {
         super(rot, x, y, dimensionX, dimensionY, 600, null);
@@ -45,6 +46,22 @@ class TankShell extends Projectile {
         this.dimensionY = dimensionY;
         this.rot = rot;
         super.setImage(pic);
-
+    }
+    public TankShell(double rot, int x, int y, int dimensionX, int dimensionY,String Sender) {
+        super(rot, x, y, dimensionX, dimensionY, 600, null, Sender);
+        sender = Sender;
+        try {
+            pic = ImageIO.read(getClass().getResourceAsStream("/basicgame1/TankShell.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Tank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.x = x;
+        xinit = x;
+        yinit = y;
+        this.y = y;
+        this.dimensionX = dimensionX;
+        this.dimensionY = dimensionY;
+        this.rot = rot;
+        super.setImage(pic);
     }
 }
